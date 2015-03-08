@@ -16,6 +16,8 @@
 //  Copyright (c) 2015 Sanchez Balocco. All rights reserved.
 
 #include <iostream>
+#include <stdio.h>
+#include <getopt.h>
 
 #include "create_escargot.h"
 #include "create_frog.h"
@@ -23,14 +25,28 @@
 
 using namespace std;
 
-int main (int argc, const char* argv[]) {
+int main (int argc, char **argv) {
 
-    int escargot_delay;
-    int frog_delay;
-    int lucy_delay;
-    int ethel_delay;
+    int escargot_delay = 0, frog_delay = 0;
+    int lucy_delay = 0, ethel_delay = 0;
 
-    // check command line args and set delays here
+    int option = 0;
+  
+    // Checking command line arguments
+    // Temporary check to figure out getopt
+    while ((option = getopt(argc, argv,"E:L:f:e:")) != -1) {
+        switch (option) {  
+	    case 'E': escargot_delay = atoi(optarg); break;
+	    case 'L': frog_delay = atoi(optarg); break;
+	    case 'f': lucy_delay = atoi(optarg); break;
+	    case 'e': ethel_delay = atoi(optarg); break;
+	}
+    }
+    
+    cout << "esc: "  << escargot_delay
+	 << " frog: " << frog_delay
+	 << " lucy: " << lucy_delay
+	 << " ethel: "<< ethel_delay << "\n";
 
     // start producing candies (conveyor belt starts)
     // lucy/ethel pick up candies
