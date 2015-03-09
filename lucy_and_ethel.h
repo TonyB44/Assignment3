@@ -24,6 +24,19 @@
 
 using namespace std;
 
-void lucy_and_ethel();
+// Defining the conveyor structure to pass into the threads
+typedef struct {
+
+    int candies_total, candies_belt;   
+    
+    int frogs_total, frogs_belt,
+        frogs_ethel, frogs_lucy;
+    
+    int escargots_total, escargots_belt,
+        escargots_ethel, escargots_lucy;
+
+} CONVEYOR_STATUS;
+
+void *lucy_and_ethel(void *ptr);
 
 #endif

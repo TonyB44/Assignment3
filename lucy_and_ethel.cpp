@@ -15,4 +15,6 @@
 //
 //  Copyright (c) 2015 Sanchez Balocco. All rights reserved.
 
-void lucy_and_ethel();
+#include "lucy_and_ethel.h"
+
+void *lucy_and_ethel(void *ptr);

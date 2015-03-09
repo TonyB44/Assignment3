@@ -15,8 +15,8 @@
 //
 //  Copyright (c) 2015 Sanchez Balocco. All rights reserved.
 
-#ifndef LUCY_AND_ETHEL_H
-#define LUCY_AND_ETHEL_H
+#ifndef CREATE_FROG_H
+#define CREATE_FROG_H
 
 #include <iostream>
 #include <stdio.h>
@@ -24,6 +24,6 @@
 
 using namespace std;
 
-void create_frog();
+void *create_frog(void *ptr);
 
 #endif

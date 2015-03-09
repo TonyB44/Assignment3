@@ -15,5 +15,7 @@
 //
 //  Copyright (c) 2015 Sanchez Balocco. All rights reserved.
 
-void create_escargot();
+#include "create_escargot.h"
+#include "lucy_and_ethel.h"
 
+void *create_escargot(void *ptr);
