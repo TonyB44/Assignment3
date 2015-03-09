@@ -18,4 +18,39 @@
 #include "create_escargot.h"
 #include "lucy_and_ethel.h"
 
-void *create_escargot(void *ptr);
+void *create_escargot(void *ptr) {
+
+    //THIS FUNCTION CAN'T BE IMPLEMENTED UNTIL BUFFER IS IMPLEMENTED
+	
+    CONVEYOR_STATUS * conv_stats = (CONVEYOR_STATUS*) ptr;
+
+    while (conv_stats->candies_total < 100) {
+
+	sem_wait(&conv_stats->empty);
+
+	//accessing critical region
+	sem_wait(&conv_stats->mutex);
+		
+	//NEED TO ADD ESCARGOT TO BUFFER STRUCT
+	/*producing escargot*/
+	conv_stats->candies_total++;
+	conv_stats->escargots_total++;	
+	conv_stats->candies_belt++;
+	conv_stats->escargots_belt++;
+	
+	cout << "Belt: " 
+	<< conv_stats->frogs_belt     << " frogs + "
+	<< conv_stats->escargots_belt << " escargots = "
+	<< conv_stats->candies_belt   << ". produced: "
+	<< conv_stats->candies_total  << "    Added escargot sucker.\n"
+	;
+
+	//exiting critical region
+	sem_post(&conv_stats->mutex);
+
+	sem_post(&conv_stats->produced);
+
+	
+
+    }
+}

@@ -22,8 +22,8 @@ CFLAGS = -g -Wall
 default: mizzo
 
 
-mizzo: main.o create_escargot.o create_frog.o lucy_and_ethel.o
-	$(CC) $(CFLAGS) -o mizzo main.o create_escargot.o create_frog.o lucy_and_ethel.o
+mizzo: main.o create_escargot.o create_frog.o lucy_and_ethel.o 
+	$(CC) $(CFLAGS) -o mizzo main.o create_escargot.o create_frog.o lucy_and_ethel.o -lpthread -lrt
 
 
 main.o: main.cpp create_escargot.h create_frog.h lucy_and_ethel.h

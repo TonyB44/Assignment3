@@ -22,16 +22,33 @@ void *create_frog(void *ptr) {
  
     CONVEYOR_STATUS * conv_stats = (CONVEYOR_STATUS*) ptr;
 
-    conv_stats->candies_total++;
-    conv_stats->candies_belt++;
-    conv_stats->frogs_total++;
-    conv_stats->frogs_belt++;
+    while (conv_stats->candies_total < 100) {
 
-    cout << "Belt: " 
-	 << conv_stats->frogs_belt     << " frogs + "
-         << conv_stats->escargots_belt << " escargots = "
-         << conv_stats->candies_belt   << ". produced: "
-         << conv_stats->candies_total  << "    Added crunchy frog bite.\n";
+	sem_wait(&conv_stats->empty);
 
-    
+	//accessing critical region
+	sem_wait(&conv_stats->mutex);
+		
+	//NEED TO ADD FROG TO BUFFER STRUCT
+	/*producing frog*/
+	conv_stats->candies_total++;
+	conv_stats->frogs_total++;	
+	conv_stats->candies_belt++;
+	conv_stats->frogs_belt++;
+	
+	cout << "Belt: " 
+	<< conv_stats->frogs_belt     << " frogs + "
+	<< conv_stats->escargots_belt << " escargots = "
+	<< conv_stats->candies_belt   << ". produced: "
+	<< conv_stats->candies_total  << "    Added crunchy frog bite.\n"
+	;
+
+	//exiting critical region
+	sem_post(&conv_stats->mutex);
+
+	sem_post(&conv_stats->produced);
+
+	
+
+    }
 }

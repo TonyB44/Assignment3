@@ -21,6 +21,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <pthread.h>
+#include "semaphore.h"
 
 using namespace std;
 
@@ -34,6 +35,9 @@ typedef struct {
     
     int escargots_total, escargots_belt,
         escargots_ethel, escargots_lucy;
+
+    sem_t produced,empty,mutex;
+    
 
 } CONVEYOR_STATUS;
 

@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <getopt.h>
 #include <pthread.h>
+#include "semaphore.h"
 
 #include "create_escargot.h"
 #include "create_frog.h"
@@ -44,11 +45,11 @@ int main (int argc, char **argv) {
 	}
     }
     
-    // testing delays
-    cout << "esc: "  << escargot_delay
-	 << " frog: " << frog_delay
-	 << " lucy: " << lucy_delay
-	 << " ethel: "<< ethel_delay << "\n\n";
+    // testing delays --- WORKING
+    //cout << "esc: "  << escargot_delay
+//	 << " frog: " << frog_delay
+//	 << " lucy: " << lucy_delay
+//	 << " ethel: "<< ethel_delay << "\n\n";
 
 
     // initializing conveyor belt data structure
@@ -62,22 +63,31 @@ int main (int argc, char **argv) {
     pthread_t frog_thread, escargot_thread, lucy_thread, ethel_thread;
     int status;
 
-    
-    while (conv_stats->candies_total < 100) {
+    //Initializing semaphores from the data structure
+    sem_init(&conv_stats->produced,0,0);
+    sem_init(&conv_stats->empty,0,10);
+    sem_init(&conv_stats->mutex,0,1);
 
 
-	status = pthread_create( &frog_thread, NULL, create_frog, conv_stats); 
-
-	if(status){
-	    fprintf(stderr,"Error - pthread_create() return code: %d\n",status);
-	    exit(EXIT_FAILURE);
-	}
-
-	//can't use pthread_join for this assignment
-	//it works, but need to use semaphores
-	pthread_join(frog_thread, NULL);
-
+    // Beginning frog production   
+    status = pthread_create(&frog_thread, NULL, create_frog, conv_stats); 
+    if(status){
+	fprintf(stderr, "Error - pthread_create() return code: %d\n", status);
+	exit(EXIT_FAILURE);
     }
+
+    // Beginning Lucy consumption - still need to implement names into data struct
+    status = pthread_create(&lucy_thread, NULL, lucy_and_ethel, conv_stats);
+    if(status){
+	fprintf(stderr, "Error - pthread_create() return code: %d\n", status);
+	exit(EXIT_FAILURE);
+    }
+
+
+    //can't use pthread_join for this assignment
+    //it works, but need to use semaphores
+    pthread_join(lucy_thread, NULL);
+    
     
     // need a conveyor belt data structure (que? list?)
     // lucy/ethel still need to pick up candies
